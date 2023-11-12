@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+# Deploy de aplicação react no Github Pages
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## gh-pages
+1. Instalar o gh-pages no projeto. 
+  ```bash
+npm install gh-pages
+```
+2. Modificar o arquivo `package.json` e incluir chaves para os scripts de `deploy` e o `predeploy`. A seção `scripts` do arquivo deve ficar como abaixo:
+```JSON
+  "scripts": {
+    "start": "react-scripts start",
+    "predeploy": "npm run build", 
+    "deploy": "gh-pages -d build", 
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+```
+3. Modificar o arquivo `package.json` para incluir a `homepage` do projeto, conforme instruções do github Pages no formato `{user/namespace}.gihub.io/{repositório}`, como no exemplo abaixo:
+```JSON
+   {
 
-## Available Scripts
+   "name" : "nome do meu projeto",
+   "homepage": "https://eduardomangeli.github.io/react-github-pages/",
+   "version": "0.1.0"
+   ...
+   }
+ ```
+4. Modificar a entrada do script start para ignorar a `homepage` durante o desenvolvimento local. A seção `scripts` deve ficar assim:
+```JSON
+  "scripts": {
+    "start": "PUBLIC_URL='.' react-scripts start",
+    "predeploy": "npm run build", 
+    "deploy": "gh-pages -d build", 
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+```
+## Configurando o Router
+5. Modificar o arquivo `index.js` para **trocar** o `BrowserRouter` pelo `HashRouter`. Esse trecho do arquivo deve ficar, como no exemplo abaixo. Lembre-se de importar o HashRouter corretamente.
+```JSX
+import { HashRouter, Route, Routes } from 'react-router-dom';
 
-In the project directory, you can run:
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<App/>}/>
+        <Route path='/outra' element={<Outra/>}/>
+      </Routes>
+    </HashRouter>
+    
+  </React.StrictMode>
+);
 
-### `npm start`
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Fazendo o deploy
+6. Para fazer o deploy, basta rodar o comando
+```bash
+npm run deploy
+```
+Obs.: O comando de `deploy` cria uma branch `gh-pages`, faz o deploy e publica a aplicação. Essa branch deve ser a configurada no GitHub Pages
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Referências:
+Tutorial Completo que inclui a criação da aplicação react:
+https://github.com/gitname/react-gh-pages
