@@ -8,12 +8,12 @@ npm install gh-pages
 2. Modificar o arquivo `package.json` e incluir chaves para os scripts de `deploy` e o `predeploy`. A seção `scripts` do arquivo deve ficar como abaixo:
 ```JSON
   "scripts": {
-    "start": "react-scripts start",
     "predeploy": "npm run build", 
     "deploy": "gh-pages -d build", 
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-windows": "SET PUBLIC_URL=/&& webpack serve --config ./webpack.config.js --mode development --port 3000",
+    "start-linux": "PUBLIC_URL=/ webpack serve --config ./webpack.config.js --mode development --port 3000",
+    "build": "webpack --mode production"
   },
 ```
 3. Modificar o arquivo `package.json` para incluir a `homepage` do projeto, conforme instruções do github Pages no formato `{user/namespace}.gihub.io/{repositório}`, como no exemplo abaixo:
@@ -26,17 +26,7 @@ npm install gh-pages
    ...
    }
  ```
-4. Modificar a entrada do script start para ignorar a `homepage` durante o desenvolvimento local. A seção `scripts` deve ficar assim:
-```JSON
-  "scripts": {
-    "start": "PUBLIC_URL='.' react-scripts start",
-    "predeploy": "npm run build", 
-    "deploy": "gh-pages -d build", 
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-```
+
 ## Configurando o Router
 5. Modificar o arquivo `index.js` para **trocar** o `BrowserRouter` pelo `HashRouter`. Esse trecho do arquivo deve ficar, como no exemplo abaixo. Lembre-se de importar o HashRouter corretamente.
 ```JSX
